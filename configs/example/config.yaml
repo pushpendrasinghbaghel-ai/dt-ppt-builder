@@ -27,8 +27,8 @@ landing_bullets:
 
 # ── Template & output paths ───────────────────────────────────────────────────
 # Replace with YOUR local template and desired output path:
-template: 'path/to/your/template.pptx'
-output:   'output/example_deck.pptx'
+template: 'C:\repos\TPLT_Corporate_PPT_2026.potx'
+output:   'C:\repos\dt-ppt-builder\output\example_deck.pptx'
 
 # ── Layout indices (adjust for your template) ────────────────────────────────
 layout_indices:

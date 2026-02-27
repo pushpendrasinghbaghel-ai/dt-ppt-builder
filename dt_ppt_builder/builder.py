@@ -25,6 +25,27 @@ from . import slide_builder as sb
 # Template loading — strips all existing slides cleanly (no corruption)
 # ─────────────────────────────────────────────────────────────────────────────
 def _load_template_clean(path: str) -> Presentation:
+    # .potx files need conversion: rename to .pptx so python-pptx accepts them
+    import tempfile, shutil
+    ext = os.path.splitext(path)[1].lower()
+    if ext == ".potx":
+        tmp = os.path.join(tempfile.gettempdir(), "dt_ppt_tmp.pptx")
+        shutil.copy2(path, tmp)
+        # Patch content type inside the ZIP from template → presentation
+        import zipfile, io
+        buf = io.BytesIO()
+        with zipfile.ZipFile(tmp, "r") as zin, zipfile.ZipFile(buf, "w") as zout:
+            for item in zin.infolist():
+                data = zin.read(item.filename)
+                if item.filename == "[Content_Types].xml":
+                    data = data.replace(
+                        b"application/vnd.openxmlformats-officedocument.presentationml.template.main+xml",
+                        b"application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml",
+                    )
+                zout.writestr(item, data)
+        with open(tmp, "wb") as f:
+            f.write(buf.getvalue())
+        path = tmp
     prs = Presentation(path)
     xml_slides    = prs.slides._sldIdLst
     slide_id_list = list(xml_slides)
