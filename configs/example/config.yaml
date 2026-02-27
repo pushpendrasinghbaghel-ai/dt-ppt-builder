@@ -1,0 +1,68 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Example Customer — AI Observability PPT Builder Config
+# Run: py build_deck.py --config configs/example/config.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+
+customer: "Acme Corp"
+
+# ── Deck metadata ─────────────────────────────────────────────────────────────
+deck_title:    "Dynatrace AI Observability"
+deck_subtitle: "AI OBSERVABILITY  ·  RFI RESPONSE  ·  2026"
+contact:       "Prepared 2026  ·  Dynatrace SE Team"
+closing_message: "One Platform.\u2002Every AI Signal.\u2002Zero Blindspots."
+
+coverage_title:   "96 of 134 Requirements Available Today  (72%)"
+coverage_eyebrow: "EXECUTIVE SUMMARY  ·  134 REQUIREMENTS ASSESSED"
+
+landing_title: "How Dynatrace Connects to AI Workloads"
+landing_bullets:
+  - "OneAgent → auto-discovers AI pods, K8s nodes, GPU hosts (zero code)"
+  - "Dynatrace native → OpenAI & Azure OpenAI (no instrumentation required)"
+  - "OTLP endpoint → any OpenTelemetry-instrumented model microservice"
+  - "opentelemetry-instrumentation-openai → 1-line pip install + init"
+  - "OpenLLMetry → LangChain, LiteLLM, Anthropic, Bedrock, Vertex, Mistral"
+  - "Traceloop SDK → agents, tool calls, multi-agent orchestration"
+  - "Vector DB SDKs → Pinecone, Qdrant, Weaviate, ChromaDB built-in"
+  - "All data lands in Grail → unified DQL, 410-day+ retention"
+
+# ── Template & output paths ───────────────────────────────────────────────────
+# Replace with YOUR local template and desired output path:
+template: 'path/to/your/template.pptx'
+output:   'output/example_deck.pptx'
+
+# ── Layout indices (adjust for your template) ────────────────────────────────
+layout_indices:
+  title_center:  11   # Title+eyebrow-only_centered
+  title_content:  2   # Title+eyebrow+content_center
+  two_img:       19   # 2 images + captions
+
+# ── Screenshots ───────────────────────────────────────────────────────────────
+# Point to a directory containing your screenshot images:
+screenshots_dir: 'screenshots'
+images:
+  landing:  "Landing Page 1.jpeg"
+  explorer: "service-explorer.jpeg"
+  detail:   "AI Service- Detailed view.jpeg"
+  health:   "service_health.jpeg"
+  agent:    "Agent-view.jpeg"
+  prompt_a: "prompt_a.jpeg"
+  prompt_b: "prompt-b.jpeg"
+
+# ── Extra screenshot slides (appended after domain slides) ────────────────────
+screenshot_slides:
+  - type: two_image
+    title: "Dynatrace AI Observability — Platform Views"
+    left_key:      landing
+    left_caption:  "Unified AI Observability Home — Overview Across All Services"
+    right_key:     explorer
+    right_caption: "Service Explorer — Request Volume, Error Rates & Latency SLIs"
+
+  - type: two_image
+    title: "Dynatrace AI Observability — Prompt Intelligence & Governance"
+    left_key:      prompt_a
+    left_caption:  "Prompt Analysis — Content Capture, Token Breakdown, Quality Signals"
+    right_key:     prompt_b
+    right_caption: "Prompt Governance — PII Detection, Injection Risk, Guardrail Outcomes"
+
+# ── Requirements data file ────────────────────────────────────────────────────
+requirements_file: "requirements.json"
