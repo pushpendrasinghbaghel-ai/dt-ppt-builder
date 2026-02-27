@@ -56,7 +56,14 @@ SLIDE_TYPE_DOCS = (
     "  • text         — {title, eyebrow?, body: str}\n"
     "  • image        — {title, image_path, caption?}\n"
     "  • comparison   — {title, items: [{label, bullets}]}\n"
-    "  • closing      — {message?, contact?}"
+    "  • closing      — {message?, contact?}\n"
+    "  • hero         — {brand, headline, sub_headline?, tagline?}  (full-bleed opening)\n"
+    "  • card_grid    — {title, eyebrow?, cards: [{icon, title, description}], footer?}\n"
+    "  • icon_bullets — {title, eyebrow?, subtitle?, bullets: [str], image_path?, footer?}\n"
+    "  • split_panel  — {title, eyebrow?, bullets, panel_title, panel_items, footer?}\n"
+    "  • two_image    — {title, eyebrow?, left_image, left_caption?, right_image, right_caption?, footer?}\n"
+    "  • value_props  — {title, eyebrow?, props: [{icon, title, description}]}\n"
+    "  • cta          — {brand?, headline, sub_text?, cta_text?}  (call-to-action closing)"
 )
 
 @server.list_tools()
