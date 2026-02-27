@@ -292,3 +292,54 @@ def build_and_save(cfg: dict, req_data: list, output_path: str) -> str:
     prs.save(output_path)
     size_mb = os.path.getsize(output_path) / 1_048_576
     return f"{output_path} ({size_mb:.1f} MB, {len(prs.slides)} slides)"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Generic / dynamic builder (content-driven — no pre-built config required)
+# ─────────────────────────────────────────────────────────────────────────────
+def build_generic(template_path: str, slides: list[dict],
+                  output_path: str, layout_indices: dict | None = None) -> str:
+    """
+    Build a branded PPTX from an array of slide spec dicts.
+
+    Each slide dict must have a "type" key (title, section, bullets, table,
+    two_column, text, image, comparison, closing) plus type-specific fields.
+
+    Args:
+        template_path:  Path to .pptx or .potx template
+        slides:         List of slide spec dicts
+        output_path:    Where to save the output .pptx
+        layout_indices: Optional dict overriding layout index mapping
+
+    Returns: summary string "path (size, N slides)"
+    """
+    from . import generic_slides as gs
+
+    prs = _load_template_clean(template_path)
+    cfg = {"layout_indices": layout_indices or {}}
+    SL  = _layout_map(prs, cfg)
+
+    gs.render_all(prs, SL, slides)
+
+    os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
+    prs.save(output_path)
+    size_mb = os.path.getsize(output_path) / 1_048_576
+    return f"{output_path} ({size_mb:.1f} MB, {len(prs.slides)} slides)"
+
+
+def build_generic_bytes(template_path: str, slides: list[dict],
+                        layout_indices: dict | None = None) -> bytes:
+    """
+    Build a branded PPTX from slide specs, return bytes (no disk write).
+    """
+    from . import generic_slides as gs
+
+    prs = _load_template_clean(template_path)
+    cfg = {"layout_indices": layout_indices or {}}
+    SL  = _layout_map(prs, cfg)
+
+    gs.render_all(prs, SL, slides)
+
+    buf = io.BytesIO()
+    prs.save(buf)
+    return buf.getvalue()
